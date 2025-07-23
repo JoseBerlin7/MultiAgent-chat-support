@@ -1,0 +1,1 @@
+'''Purpose: sending notification via email/whatsapp when a ticket is created or action is taken and in need of attention.'''

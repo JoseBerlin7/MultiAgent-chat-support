@@ -1,0 +1,1 @@
+'''Purpose: Responds to FAQs with a model trained on FAQ data.'''

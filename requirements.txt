@@ -5,3 +5,4 @@ pydantic
 sqlalchemy 
 aiosqlite 
 jinja2
+openai

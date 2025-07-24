@@ -1,1 +1,0 @@
-'''Purpose: Ticket creation, returns a ticket ID and logs the details in the database.'''

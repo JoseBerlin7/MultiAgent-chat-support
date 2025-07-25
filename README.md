@@ -25,34 +25,36 @@ This project simulates a multi-agent architecture for handling user queries (FAQ
 3. Set the env
 Create .env files with the following
 
-MODEL_NAME = "gpt-4o"
-OPENAI_DEPLOYMENT = "gpt-4o"
-ENDPOINT = ""
-API_KEY = ""
-EMBEDDING_MODEL_NAME = "text-embedding-3-small"
-EMBEDDING_DEPLOYMENT = ""
-SENDGRID_API_KEY = ""
+        MODEL_NAME = "gpt-4o"
+        OPENAI_DEPLOYMENT = "gpt-4o"
+        ENDPOINT = ""
+        API_KEY = ""
+        EMBEDDING_MODEL_NAME = "text-embedding-3-small"
+        EMBEDDING_DEPLOYMENT = ""
+        SENDGRID_API_KEY = ""
 
 4. Run the app
 
-uvicorn main:app --reload
+        uvicorn main:app --reload
 
 5. Then visit
 
-http://127.0.0.1:8000/docs
+        http://127.0.0.1:8000/docs
 
 6. Select try it youserlf
 
-Example request
-{
-  "user_id": "+12345678901",
-  "message": "How do I activate my sim card?"
-}
+Example request:
 
-Sample response
-{
-  "agent": "FAQAgent",
-  "response": "Download the Cogniwide app, scan the QR code provided, and follow the on-screen instructions."
-}
+        {
+          "user_id": "+12345678901",
+          "message": "How do I activate my sim card?"
+        }
+
+Sample response:
+
+        {
+          "agent": "FAQAgent",
+          "response": "Download the Cogniwide app, scan the QR code provided, and follow the on-screen instructions."
+        }
 
 

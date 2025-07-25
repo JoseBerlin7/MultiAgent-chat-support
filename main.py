@@ -1,31 +1,43 @@
 ''' Starts FastAPI app, handles incoming cjhat post requesrs, coordinates the agent workflow
 Intent classifictaion -> routing -> response -> logging ->Notification
 '''
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, BackgroundTasks
 from pydantic import BaseModel as Basemodel
-from agents.intent_classifier import IntentClassifier
 from agents.routing_agent import Router
-from database.db_utils import init_db
+import database.db_utils as db_utils
+from utils.logger import message_logger
+from database.schemas import DB_schemas
 
 app = FastAPI()
 
-init_db()
+# To create the DB with few dummy data(first time only)
+# db_utils.create_tables()
 
+# To clear all the logs
+# DB_schemas().delete_all('convo_log.db', 'conversations')
+# DB_schemas().delete_all('customer_tickets.db', 'tickets')
+# print("clear")
 
 class ChatRequest(Basemodel):
-    user_id: str
+    phone: str
     message: str
 
 
 class ChatResponse(Basemodel):
-    intent: str
     agent: str
     response: str
 
+async def log_message(customer_id, sender, message, agent):
+    logg= message_logger()
+    await logg.log_message(customer_id=customer_id,sender=sender, message=message, agent=agent)
 
 @app.post("/chat", response_model=ChatResponse)
-async def handle_chat(req: ChatRequest):
-    intent = IntentClassifier().classify(req.message)
-    agent_name, response = Router().route(intent, req.message, req.user_id)
-
-    return ChatResponse(intent=intent, agent= agent_name, response=response)
+async def handle_chat(req: ChatRequest, bg_tasks: BackgroundTasks):
+    
+    # selecting specific customer_id
+    # customer_id = 4
+    customer_id = DB_schemas().get_customer_id(phone=req.phone)['customer_id']
+    bg_tasks.add_task(log_message, customer_id,"user",req.message, "")
+    response, agent_name = Router().route(req.message, customer_id)
+    bg_tasks.add_task(log_message, customer_id,"assistant",response,agent_name)
+    return ChatResponse(response=response, agent= agent_name)

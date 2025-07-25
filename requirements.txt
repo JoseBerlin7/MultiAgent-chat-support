@@ -6,3 +6,6 @@ sqlalchemy
 aiosqlite 
 jinja2
 openai
+pandas
+torch # for embedding FAQ
+azure-core

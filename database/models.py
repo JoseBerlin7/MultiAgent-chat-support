@@ -1,1 +1,0 @@
-'''Purpose: Defining DB tables'''

@@ -1,7 +1,7 @@
 '''Purpose: Ticket creation, returns a ticket ID and logs the details in the database.'''
 from agents.answer_handling import generate_answer
 from database.schemas import DB_schemas
-# from agents.Support_agents.notify_agent import send_mail
+from agents.Support_agents import send_mail
 
 class TicketAgent:
     def get_prompt(message):
@@ -57,7 +57,7 @@ class TicketAgent:
     
     def create_ticket(self, message, user_data):
         DB_schemas().add_ticket(message=message,customer_id=user_data['customer_id'],status="OPEN")
-        # send_mail().send_email_via_sendgrid(to_emails=user_data['email'], subject="Ticket raised", text_content=message)
+        send_mail().send_email_via_sendgrid(to_emails=user_data['email'], subject="Ticket raised", text_content=message)
         return "I've successfully raised a ticket for you, you'll be recieving a email conformation regarding this ticket"
 
         

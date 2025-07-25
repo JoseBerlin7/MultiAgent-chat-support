@@ -1,5 +1,5 @@
-''' Starts FastAPI app, handles incoming cjhat post requesrs, coordinates the agent workflow
-Intent classifictaion -> routing -> response -> logging ->Notification
+''' Starting the FastAPI app, handles incoming cjhat post requests, coordinates the agent workflow
+Userquery -> logging -> Intent classifictaion -> routing -> response-> notify (on ticket creation) -> logging 
 '''
 from fastapi import FastAPI, BackgroundTasks
 from pydantic import BaseModel as Basemodel
